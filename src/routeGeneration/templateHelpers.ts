@@ -272,7 +272,7 @@ export class ValidationService {
       return;
     }
 
-    const stringValue = String(value);
+    let stringValue = String(value);
     if (!validators) {
       return stringValue;
     }
@@ -303,6 +303,10 @@ export class ValidationService {
         return;
       }
     }
+    if (validators.escape) {
+      stringValue = validator.escape(stringValue);
+    }
+
     return stringValue;
   }
 
@@ -643,6 +647,7 @@ export interface DateTimeValidator {
 }
 
 export interface StringValidator {
+  escape?: boolean,
   isString?: { errorMsg?: string };
   minLength?: { value: number; errorMsg?: string };
   maxLength?: { value: number; errorMsg?: string };
